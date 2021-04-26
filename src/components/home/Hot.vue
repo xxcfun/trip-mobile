@@ -28,6 +28,9 @@
 </template>
 
 <script>
+  import { ajax } from '../../utils/ajax'
+  import { SightApis } from '../../utils/apis'
+
   export default {
     name: 'Hot',
     data () {
@@ -35,69 +38,24 @@
         dataList: []
       }
     },
+    methods: {
+      /**
+       * 获取热门景点的接口
+       */
+      getDataList () {
+        ajax.get(SightApis.sightListUrl, {
+          params: {
+            is_hot: 1
+          }
+        }).then(({ data }) => {
+          console.log('成功获取热门景点数据')
+          this.dataList = data.objects
+        })
+      }
+    },
     created () {
-      this.dataList = [
-        {
-          id: 1,
-          img: '/static/home/hot/h1.jpg',
-          name: '景点名称景点名称景点名称景点名称景点名称',
-          price: 65
-        },
-        {
-          id: 2,
-          img: '/static/home/hot/h2.jpg',
-          name: '景点名称',
-          price: 65
-        },
-        {
-          id: 3,
-          img: '/static/home/hot/h3.jpg',
-          name: '景点名称称景点名称',
-          price: 65
-        },
-        {
-          id: 4,
-          img: '/static/home/hot/h4.jpg',
-          name: '景点名称',
-          price: 65
-        },
-        {
-          id: 5,
-          img: '/static/home/hot/h5.jpg',
-          name: '景点名称称景点名称',
-          price: 65
-        },
-        {
-          id: 6,
-          img: '/static/home/hot/h6.jpg',
-          name: '景点名称',
-          price: 65
-        },
-        {
-          id: 7,
-          img: '/static/home/hot/h7.jpg',
-          name: '景点名称',
-          price: 65
-        },
-        {
-          id: 8,
-          img: '/static/home/hot/h8.jpg',
-          name: '景点名称',
-          price: 65
-        },
-        {
-          id: 9,
-          img: '/static/home/hot/h9.jpg',
-          name: '景点名称景点名称',
-          price: 65
-        },
-        {
-          id: 10,
-          img: '/static/home/hot/h10.jpg',
-          name: '景点名称景点名称景点名称',
-          price: 65
-        }
-      ]
+      // 查询接口数据
+      this.getDataList()
     }
   }
 </script>

@@ -20,6 +20,8 @@
 
 <script>
   import ListSight from '../common/ListSight'
+  import { ajax } from '../../utils/ajax'
+  import { SightApis } from '../../utils/apis'
   export default {
     name: 'Fine',
     components: { ListSight },
@@ -28,15 +30,24 @@
         dataList: []
       }
     },
+    methods: {
+      /**
+       * 获取精选景点的接口
+       */
+      getDataList () {
+        ajax.get(SightApis.sightListUrl, {
+          params: {
+            is_top: 1
+          }
+        }).then(({ data }) => {
+          console.log('成功获取精选景点数据')
+          this.dataList = data.objects
+        })
+      }
+    },
     created () {
-      this.dataList = [
-        { id: 1, img: '/static/home/hot/h1.jpg', name: '景点1', score: 4.5, price: 98 },
-        { id: 2, img: '/static/home/hot/h2.jpg', name: '景点2', score: 4, price: 100 },
-        { id: 3, img: '/static/home/hot/h3.jpg', name: '景点3', score: 4.5, price: 198 },
-        { id: 4, img: '/static/home/hot/h4.jpg', name: '景点4', score: 4, price: 88 },
-        { id: 5, img: '/static/home/hot/h5.jpg', name: '景点5', score: 5, price: 30 },
-        { id: 6, img: '/static/home/hot/h6.jpg', name: '景点6', score: 3.5, price: 58 }
-      ]
+      // 查询接口数据
+      this.getDataList()
     }
   }
 </script>
@@ -48,6 +59,7 @@
       padding: 10px 0;
     }
     .box-main {
+      padding-bottom: 50px;
     }
   }
 </style>
