@@ -8,20 +8,24 @@
       is-link
       value="全部榜单"
       title-style="text-align: left"
+      :to="{name: 'SightList', query: {name: '热门推荐'}}"
     />
     <!-- // 顶上导航 -->
     <!-- 景点列表 -->
     <div class="box-main">
-      <a href="#" class="hot-item" v-for="item in dataList" :key="item.id">
+      <router-link class="hot-item"
+                   v-for="item in dataList"
+                   :key="item.id"
+                   :to="{name: 'SightDetail', params: {id: item.id}}">
         <div class="img">
           <span></span>
-          <img :src="item.img" alt="">
+          <img :src="item.main_img" alt="">
         </div>
         <h5 class="van-ellipsis">{{ item.name }}</h5>
         <div class="line-price">
-          <span class="price">￥{{ item.price }}</span>起
+          <span class="price">￥{{ item.min_price }}</span>起
         </div>
-      </a>
+      </router-link>
     </div>
     <!-- // 景点列表 -->
   </div>
@@ -63,23 +67,28 @@
 <style scoped lang="less">
   .home-hot-box {
     padding: 0 10px;
+
     .van-cell {
       padding: 10px 0;
     }
+
     .box-main {
       width: 100%;
       display: flex;
       padding-top: 10px;
       overflow-x: scroll;
     }
+
     .hot-item {
       display: flex;
       flex-direction: column;
       width: 100px;
       margin-right: 10px;
       padding-bottom: 10px;
+
       .img {
         position: relative;
+
         span {
           position: absolute;
           left: 0;
@@ -89,33 +98,40 @@
           height: 20px;
           z-index: 10;
         }
+
         img {
           width: 100px;
           height: 100px;
         }
       }
+
       h5 {
         color: #212121;
         padding: 2px 0;
         font-size: 12px;
         margin: 0;
       }
+
       .line-price {
         color: #212121;
         font-size: 12px;
+
         .price {
           color: #f50;
           font-size: 13px;
         }
       }
+
       &:nth-child(1) .img span {
         background: url('/static/home/hot/top1.png') no-repeat;
         background-size: 100% auto;
       }
+
       &:nth-child(2) .img span {
         background: url('/static/home/hot/top2.png') no-repeat;
         background-size: 100% auto;
       }
+
       &:nth-child(3) .img span {
         background: url('/static/home/hot/top3.png') no-repeat;
         background-size: 100% auto;

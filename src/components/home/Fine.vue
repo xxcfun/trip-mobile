@@ -8,6 +8,7 @@
       is-link
       value="更多"
       title-style="text-align: left"
+      :to="{name: 'SightList', query: {name: '精选景点'}}"
     />
     <!-- // 顶上导航 -->
     <!-- 景点的列表 -->
