@@ -17,7 +17,11 @@ const SystemApis = {
  */
 const SightApis = {
   // 景点列表
-  sightListUrl: apiHost + '/sight/sight/list/'
+  sightListUrl: apiHost + '/sight/sight/list/',
+  // 景点详情
+  sightDetailUrl: apiHost + '/sight/sight/detail/#{id}/',
+  // 景点下的门票列表
+  sightTicketListUrl: apiHost + '/sight/ticket/list/#{id}/'
 }
 
 export {

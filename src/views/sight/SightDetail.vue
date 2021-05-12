@@ -5,23 +5,23 @@
     <van-nav-bar left-text="返回" left-arrow fixed @click-left="goBack"/>
     <!-- 大图 -->
     <div class="sight-banner">
-      <van-image src="static/home/hot/h1_max.jpg" width="100%" height="100%"/>
+      <van-image :src="sightDetail.img" width="100%" height="100%"/>
       <div class="tips">
-        <router-link class="pic-sts" :to="{name: 'SightImage', params: {id: 1}}">
+        <router-link class="pic-sts" :to="{name: 'SightImage', params: {id}}">
           <van-icon name="video-o"/>
-          <span>10 图片</span>
+          <span>{{ sightDetail.image_count }} 图片</span>
         </router-link>
-        <div class="title">景点标题</div>
+        <div class="title">{{ sightDetail.name }}</div>
       </div>
     </div>
     <!-- 评分、景点介绍 -->
     <div class="sight-info">
       <div class="left">
         <div class="info-title">
-          <strong>5分</strong>
+          <strong>{{ sightDetail.score }}分</strong>
           <small>很棒</small>
         </div>
-        <div class="info-tips">50评论</div>
+        <div class="info-tips">{{ sightDetail.comment_count }}评论</div>
         <van-icon name="arrow"/>
       </div>
       <div class="right">
@@ -33,7 +33,7 @@
       </div>
     </div>
     <!-- 地址信息 -->
-    <van-cell title="山东省济南市历下区智远街道" icon="location-o" is-link :title-style="{'text-align': 'left'}">
+    <van-cell :title="fullArea" icon="location-o" is-link :title-style="{'text-align': 'left'}">
 <!--      <template #right-icon>-->
 <!--        <van-icon name="arrow"/>-->
 <!--      </template>-->
@@ -41,12 +41,12 @@
     <!-- 门票列表 -->
     <div class="sight-ticket">
       <van-cell title="门票" icon="bookmark-o" title-style="text-align: left"/>
-      <div class="ticket-item" v-for="i in 5" :key="i">
+      <div class="ticket-item" v-for="item in sightTicketList" :key="item.pk">
         <div class="left">
-          <div class="title">成人票</div>
+          <div class="title">{{ item.name }}</div>
           <div class="tips">
             <van-icon name="clock-o"/>
-            <span>七点之前可以预定</span>
+            <span>{{ item.desc }}</span>
           </div>
           <div class="tags">
             <van-tag mark type="primary">标签</van-tag>
@@ -55,7 +55,7 @@
         <div class="right">
           <div class="price">
             <span>￥</span>
-            <strong>65</strong>
+            <strong>{{ item.sell_price }}</strong>
           </div>
           <router-link to="#">
             <van-button type="warning" size="small">预定</van-button>
@@ -74,20 +74,65 @@
 
 <script>
   import CommentItem from '../../components/sight/CommentItem'
+  import { SightApis } from '../../utils/apis'
+  import { ajax } from '../../utils/ajax'
   export default {
     name: 'SightDetail',
     components: { CommentItem },
     data () {
       return {
-        id: ''
+        id: '',
+        // 景点详情信息
+        sightDetail: {},
+        // 景点下的门票信息
+        sightTicketList: []
+      }
+    },
+    computed: {
+      /**
+       * 地址的全部信息
+       */
+      fullArea () {
+        let area = this.sightDetail.province + this.sightDetail.city
+        if (this.sightDetail.area) {
+          area += this.sightDetail.area
+        }
+        if (this.sightDetail.town) {
+          area += this.sightDetail.town
+        }
+        return area
       }
     },
     created () {
+      // 获取路由id
       this.id = this.$route.params.id
+      // 调用接口
+      // 景点详情
+      this.getSightDetail()
+      // 景点下的门票列表
+      this.getSightTicketList()
     },
     methods: {
       goBack () {
         this.$router.go(-1)
+      },
+      /**
+       * 获取景点详情信息
+       */
+      getSightDetail () {
+        const url = SightApis.sightDetailUrl.replace('#{id}', this.id)
+        ajax.get(url).then(({ data }) => {
+          this.sightDetail = data
+        })
+      },
+      /**
+       * 获取景点下的门票列表
+       */
+      getSightTicketList () {
+        const url = SightApis.sightTicketListUrl.replace('#{id}', this.id)
+        ajax.get(url).then(({ data: { objects } }) => {
+          this.sightTicketList = objects
+        })
       }
     }
   }
@@ -187,6 +232,7 @@
 
         .right {
           width: 100px;
+          padding-top: 15px;
 
           .price {
             color: #ff9800;
