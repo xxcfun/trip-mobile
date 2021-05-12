@@ -22,8 +22,9 @@
   // 景点列表
   .sight-item {
     display: flex;
-    margin-top: 10px;
+    padding-top: 10px;
     border-bottom: 1px solid #f6f6f6;
+    background-color: #fff;
 
     img {
       width: 100px;

@@ -9,7 +9,7 @@ const apiHost = 'http://localhost:8080/api'
  */
 const SystemApis = {
   // 轮播图列表
-  sliderListUrl: apiHost + '/system/slider/list'
+  sliderListUrl: apiHost + '/system/slider/list/'
 }
 
 /**
@@ -17,7 +17,7 @@ const SystemApis = {
  */
 const SightApis = {
   // 景点列表
-  sightListUrl: apiHost + '/sight/sight/list'
+  sightListUrl: apiHost + '/sight/sight/list/'
 }
 
 export {

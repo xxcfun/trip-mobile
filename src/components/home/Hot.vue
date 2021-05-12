@@ -8,7 +8,7 @@
       is-link
       value="全部榜单"
       title-style="text-align: left"
-      :to="{name: 'SightList', query: {name: '热门推荐'}}"
+      :to="{name: 'Search', query: {isHot: 1}}"
     />
     <!-- // 顶上导航 -->
     <!-- 景点列表 -->
@@ -66,6 +66,7 @@
 
 <style scoped lang="less">
   .home-hot-box {
+    background-color: #fff;
     padding: 0 10px;
 
     .van-cell {

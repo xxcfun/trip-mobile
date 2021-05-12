@@ -8,7 +8,7 @@
       is-link
       value="更多"
       title-style="text-align: left"
-      :to="{name: 'SightList', query: {name: '精选景点'}}"
+      :to="{name: 'Search', query: {isTop: 1}}"
     />
     <!-- // 顶上导航 -->
     <!-- 景点的列表 -->
@@ -56,6 +56,7 @@
 <style scoped lang="less">
   .home-fine-box {
     padding: 0 10px;
+    background-color: #fff;
     .van-cell {
       padding: 10px 0;
     }
