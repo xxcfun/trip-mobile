@@ -6,12 +6,18 @@ import store from './store'
 import Vant from 'vant'
 import 'vant/lib/index.css'
 
+// 引入过滤器
+import * as filters from './utils/filters'
+
 // 把VantUI当做一个插件，在Vue中使用
 Vue.use(Vant)
 
 Vue.config.productionTip = false
 
-new Vue({
+// 注册过滤器
+Object.keys(filters).forEach(k => Vue.filter(k, filters[k]))
+
+window.app = new Vue({
   router,
   store,
   render: h => h(App)

@@ -52,7 +52,6 @@
             is_hot: 1
           }
         }).then(({ data }) => {
-          console.log('成功获取热门景点数据')
           this.dataList = data.objects
         })
       }

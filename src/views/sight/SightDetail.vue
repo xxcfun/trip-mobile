@@ -16,7 +16,7 @@
     </div>
     <!-- 评分、景点介绍 -->
     <div class="sight-info">
-      <div class="left">
+      <div class="left" @click="goPage()">
         <div class="info-title">
           <strong>{{ sightDetail.score }}分</strong>
           <small>很棒</small>
@@ -66,7 +66,7 @@
     <!-- 用户评价 -->
     <div class="sight-comment">
       <van-cell title="热门评论" icon="comment-o" title-style="text-align: left"/>
-      <comment-item/>
+      <comment-item v-for="item in sightCommentList" :key="item.pk" :item="item"/>
       <router-link class="link-more" :to="{name: 'SightComment', params: {id}}">查看更多</router-link>
     </div>
   </div>
@@ -85,7 +85,9 @@
         // 景点详情信息
         sightDetail: {},
         // 景点下的门票信息
-        sightTicketList: []
+        sightTicketList: [],
+        // 景点下的评论列表
+        sightCommentList: []
       }
     },
     computed: {
@@ -103,18 +105,29 @@
         return area
       }
     },
-    created () {
-      // 获取路由id
-      this.id = this.$route.params.id
-      // 调用接口
-      // 景点详情
-      this.getSightDetail()
-      // 景点下的门票列表
-      this.getSightTicketList()
+    watch: {
+      $route () {
+        this.loadData()
+      }
     },
     methods: {
+      loadData () {
+        // 获取路由id
+        this.id = this.$route.params.id
+        // 调用接口
+        // 景点详情
+        this.getSightDetail()
+        // 景点下的门票列表
+        this.getSightTicketList()
+        // 景点下的评论列表
+        this.getSightCommentList()
+      },
       goBack () {
         this.$router.go(-1)
+      },
+      // 跳转到评论列表
+      goPage () {
+        this.$router.push({ name: 'SightComment', params: { id: this.id } })
       },
       /**
        * 获取景点详情信息
@@ -133,7 +146,19 @@
         ajax.get(url).then(({ data: { objects } }) => {
           this.sightTicketList = objects
         })
+      },
+      /**
+       * 获取景点下的评论列表
+       */
+      getSightCommentList () {
+        const url = SightApis.sightCommentListUrl.replace('#{id}', this.id)
+        ajax.get(url).then(({ data: { objects } }) => {
+          this.sightCommentList = objects
+        })
       }
+    },
+    created () {
+      this.loadData()
     }
   }
 </script>

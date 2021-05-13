@@ -41,7 +41,6 @@
             is_top: 1
           }
         }).then(({ data }) => {
-          console.log('成功获取精选景点数据')
           this.dataList = data.objects
         })
       }

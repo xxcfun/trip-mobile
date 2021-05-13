@@ -21,7 +21,9 @@ const SightApis = {
   // 景点详情
   sightDetailUrl: apiHost + '/sight/sight/detail/#{id}/',
   // 景点下的门票列表
-  sightTicketListUrl: apiHost + '/sight/ticket/list/#{id}/'
+  sightTicketListUrl: apiHost + '/sight/ticket/list/#{id}/',
+  // 景点下的评论列表
+  sightCommentListUrl: apiHost + '/sight/comment/list/#{id}/'
 }
 
 export {
