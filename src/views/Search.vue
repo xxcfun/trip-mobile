@@ -10,8 +10,20 @@
         <div @click="onSearch">搜索</div>
       </template>
     </van-search>
-    <h2 v-if="isHot">热门推荐</h2>
-    <h2 v-if="isTop">精选景点</h2>
+    <div class="title" v-if="isHot">
+      <van-cell
+        title="热门推荐"
+        icon="fire-o"
+        title-style="text-align: left"
+      />
+    </div>
+    <div class="title" v-if="isTop">
+      <van-cell
+        title="精选景点"
+        icon="fire-o"
+        title-style="text-align: left"
+      />
+    </div>
     <!-- 景点列表 -->
     <div class="sight-list">
       <list-sight v-for="item in dataList" :key="item.id" :item="item"/>
@@ -117,12 +129,10 @@
   .page-search {
     padding-bottom: 60px;
 
-    h2 {
-      font-size: 16px;
-      text-align: left;
-      padding: 5px 10px;
-      margin: 0;
+    .title {
+      border-bottom: 1px solid #f6f6f6;
     }
+
     .sight-list {
       padding: 10px;
       background-color: #fff;

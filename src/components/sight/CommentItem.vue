@@ -17,7 +17,7 @@
 <!--      <van-image width="100" height="100" src="/static/sight/comment5.jpg"/>-->
     </div>
     <van-image-preview v-model="show" :images="imageUrls" @change="onChange">
-      <template v-slot:index>第{{ index + 1 }}页</template>
+      <template v-slot:index>第{{ index + 1 }}张 / 共{{ item.images.length }}张</template>
     </van-image-preview>
   </div>
 </template>

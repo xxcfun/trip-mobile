@@ -7,6 +7,9 @@ import SightDetail from '../views/sight/SightDetail'
 import SightInfo from '../views/sight/SightInfo'
 import SightComment from '../views/sight/SightComment'
 import SightImage from '../views/sight/SightImage'
+import AccountLogin from '../views/accounts/Login'
+import AccountRegister from '../views/accounts/Register'
+import Send from '../views/accounts/Send'
 
 Vue.use(VueRouter)
 
@@ -50,6 +53,24 @@ const routes = [
     path: '/sight/image/:id',
     name: 'SightImage',
     component: SightImage
+  },
+  // 用户登录
+  {
+    path: '/account/login',
+    name: 'AccountLogin',
+    component: AccountLogin
+  },
+  // 用户注册
+  {
+    path: '/account/register',
+    name: 'AccountRegister',
+    component: AccountRegister
+  },
+  // 验证码
+  {
+    path: '/send',
+    name: 'send',
+    component: Send
   }
 ]
 
