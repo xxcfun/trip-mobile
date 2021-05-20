@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Search from '../views/Search'
+import Mine from '../views/Mine'
 import SightList from '../views/sight/SightList'
 import SightDetail from '../views/sight/SightDetail'
 import SightInfo from '../views/sight/SightInfo'
@@ -23,6 +24,11 @@ const routes = [
     path: '/search',
     name: 'Search',
     component: Search
+  },
+  {
+    path: '/mine',
+    name: 'Mine',
+    component: Mine
   },
   // 景点列表
   {
