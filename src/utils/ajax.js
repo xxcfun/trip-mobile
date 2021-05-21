@@ -42,13 +42,20 @@ ajax.interceptors.response.use(function (response) {
         type: 'danger'
       })
       window.app.$router.replace({ name: 'AccountLogin' })
-      // window.alert('未登录，即将跳转到登录页面')
     } else if (error.response.status === 500) {
       window.app.$notify({
         message: '服务器正忙，请稍后再试',
         type: 'danger'
       })
-      // window.alert('服务器正忙，请稍后再试')
+    } else if (error.response.status === 400) {
+      const data = error.response.data
+      let msg = data.error_msg ? data.error_msg : '参数错误'
+      if (data.error_list) {
+        const keys = Object.keys(data.error_list)
+        const errObj = data.error_list[keys[0]][0]
+        msg = `${errObj.message}, ${errObj.code}`
+        window.app.$notify(msg)
+      }
     }
   }
   window.app.$toast.clear()

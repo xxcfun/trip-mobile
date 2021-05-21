@@ -41,6 +41,7 @@
   import Copyright from '../../components/common/Copyright'
   import { ajax } from '../../utils/ajax'
   import { AccountsApis } from '../../utils/apis'
+  import * as types from '../../store/mutation-types'
   export default {
     name: 'Login',
     data () {
@@ -68,13 +69,12 @@
           password: this.password
         }).then(({ data }) => {
           // 2. 拿到用户信息，存储到vuex
-          this.$store.commit('updateUserInfo', data)
+          this.$store.commit(types.UPDATE_USER_INFO, data)
           this.$toast('登录成功')
           this.$router.replace({ name: 'Mine' })
         }).catch(({ response: { data } }) => {
           // 3. 如果出现了异常，需要给用户提示异常信息
           console.log(data)
-          this.$toast(`${data.error_code},${data.error_msg}`)
         })
       }
     }

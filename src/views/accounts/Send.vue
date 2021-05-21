@@ -93,7 +93,7 @@
   }
 </script>
 
-<style lang="less">
+<style scoped lang="less">
   .page-account-register {
     padding-top: 50px;
   }

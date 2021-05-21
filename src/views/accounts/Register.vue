@@ -68,6 +68,7 @@
   import SendSmsCode from '../../components/common/SendSmsCode'
   import { ajax } from '../../utils/ajax'
   import { AccountsApis } from '../../utils/apis'
+  import * as types from '../../store/mutation-types'
   export default {
     name: 'Register',
     data () {
@@ -107,7 +108,7 @@
           password: this.form.passwordRepeat
         }).then(({ data }) => {
           // 判断成功返回结果，用户信息写入vuex
-          this.$store.commit('updateUserInfo', data)
+          this.$store.commit(types.UPDATE_USER_INFO, data)
           // 提示用户
           this.$notify({
             message: '注册成功',
@@ -115,6 +116,9 @@
           })
           // 跳转个人中心页面
           this.$router.replace({ name: 'Mine' })
+        }).catch(({ response: { data } }) => {
+          // 3. 如果出现了异常，需要给用户提示异常信息
+          console.log(data)
         })
       },
       // 当手机号变化时，重置发送按钮

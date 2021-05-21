@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import * as types from './mutation-types'
 
 Vue.use(Vuex)
 
@@ -19,7 +20,7 @@ export default new Vuex.Store({
      * @param user
      * @param profile
      */
-    updateUserInfo (state, { user, profile }) {
+    [types.UPDATE_USER_INFO] (state, { user, profile }) {
       state.user = {
         ...state.user,
         ...user
@@ -33,7 +34,7 @@ export default new Vuex.Store({
      * 删除用户信息
      * @param state
      */
-    deleteUserInfo (state) {
+    [types.DELETE_USER_INFO] (state) {
       state.user = {}
       state.profile = {}
     }

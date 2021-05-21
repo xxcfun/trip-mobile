@@ -53,6 +53,7 @@
   import TripFooter from '../components/common/Footer'
   import { ajax } from '../utils/ajax'
   import { AccountsApis } from '../utils/apis'
+  import * as types from '../store/mutation-types'
   export default {
     name: 'Mine',
     components: { TripFooter },
@@ -63,7 +64,7 @@
       getUserInfo () {
         ajax.get(AccountsApis.userInfoUrl).then(({ data }) => {
           console.log('Mine-getUserInfo', data)
-          this.$store.commit('updateUserInfo', data)
+          this.$store.commit(types.UPDATE_USER_INFO, data)
         })
       },
       /**
@@ -78,7 +79,7 @@
             type: 'success'
           })
           // 删除用户登录的信息
-          this.$store.commit('deleteUserInfo')
+          this.$store.commit(types.DELETE_USER_INFO)
           // 跳转到首页去
           this.$router.push({ name: 'Home' })
         })
