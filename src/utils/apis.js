@@ -5,11 +5,27 @@
 const apiHost = 'http://localhost:8080/api'
 
 /**
+ * 用户账户相关的接口
+ */
+const AccountsApis = {
+  // 用户登录
+  loginUrl: apiHost + '/accounts/user/api/login/',
+  // 用户退出登录
+  logoutUrl: apiHost + '/accounts/user/api/logout/',
+  // 用户信息
+  userInfoUrl: apiHost + '/accounts/user/api/info/',
+  // 用户注册
+  registerUrl: apiHost + '/accounts/user/api/register/'
+}
+
+/**
  * 系统模块的接口
  */
 const SystemApis = {
   // 轮播图列表
-  sliderListUrl: apiHost + '/system/slider/list/'
+  sliderListUrl: apiHost + '/system/slider/list/',
+  // 发送短信验证码
+  sendSmsCodeUrl: apiHost + '/system/send/sms/'
 }
 
 /**
@@ -30,5 +46,6 @@ const SightApis = {
 
 export {
   SystemApis,
-  SightApis
+  SightApis,
+  AccountsApis
 }

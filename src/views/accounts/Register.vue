@@ -66,6 +66,8 @@
 <script>
   import Copyright from '../../components/common/Copyright'
   import SendSmsCode from '../../components/common/SendSmsCode'
+  import { ajax } from '../../utils/ajax'
+  import { AccountsApis } from '../../utils/apis'
   export default {
     name: 'Register',
     data () {
@@ -97,6 +99,23 @@
       },
       // 提交表单
       onSubmit () {
+        // 调用接口
+        ajax.post(AccountsApis.registerUrl, {
+          username: this.form.username,
+          sms_code: this.form.sms_code,
+          nickname: this.form.nickname,
+          password: this.form.passwordRepeat
+        }).then(({ data }) => {
+          // 判断成功返回结果，用户信息写入vuex
+          this.$store.commit('updateUserInfo', data)
+          // 提示用户
+          this.$notify({
+            message: '注册成功',
+            type: 'success'
+          })
+          // 跳转个人中心页面
+          this.$router.replace({ name: 'Mine' })
+        })
       },
       // 当手机号变化时，重置发送按钮
       onPhoneChange () {

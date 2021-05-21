@@ -4,6 +4,9 @@
 </template>
 
 <script>
+  import { SystemApis } from '../../utils/apis'
+  import { ajax } from '../../utils/ajax'
+
   export default {
     name: 'SendSmsCode',
     props: ['phone'],
@@ -56,9 +59,25 @@
           return false
         }
         // 调用接口，发送短信验证码
-        this.isSmsSend = true
-        // 开始倒计时，60s之后才能再次点击
-        this.countDown()
+        ajax.post(SystemApis.sendSmsCodeUrl, {
+          phone_num: this.phone
+        }).then(({ data }) => {
+          // 提示用户验证码已经发送
+          this.$notify({
+            message: `验证码为：${data.sms_code}, ${data.timeout / 60}分钟内有效`,
+            // 展示时长
+            duration: 1000 * 10,
+            type: 'success'
+          })
+          this.isSmsSend = true
+          // 开始倒计时，60s之后才能再次点击
+          this.countDown()
+        }).catch(err => {
+          // 如果产生了异常，提示用户重新操作
+          this.isSmsSend = false
+          this.sendBtnText = '点击发送验证码'
+          console.log(err)
+        })
       }
     }
   }
