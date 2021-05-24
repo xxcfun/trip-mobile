@@ -12,6 +12,7 @@ import AccountLogin from '../views/accounts/Login'
 import AccountRegister from '../views/accounts/Register'
 import OrderSubmit from '../views/order/Sumbit'
 import OrderPay from '../views/order/Pay'
+import OrderList from '../views/order/List'
 // import Send from '../views/accounts/Send'
 
 Vue.use(VueRouter)
@@ -91,6 +92,12 @@ const routes = [
     path: '/order/pay/:sn',
     name: 'OrderPay',
     component: OrderPay
+  },
+  // 我的订单列表
+  {
+    path: '/order/list/:status',
+    name: 'OrderList',
+    component: OrderList
   }
 ]
 
