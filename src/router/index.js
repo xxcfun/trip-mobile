@@ -10,7 +10,8 @@ import SightComment from '../views/sight/SightComment'
 import SightImage from '../views/sight/SightImage'
 import AccountLogin from '../views/accounts/Login'
 import AccountRegister from '../views/accounts/Register'
-import Send from '../views/accounts/Send'
+import OrderSubmit from '../views/order/Sumbit'
+// import Send from '../views/accounts/Send'
 
 Vue.use(VueRouter)
 
@@ -73,10 +74,16 @@ const routes = [
     component: AccountRegister
   },
   // 验证码
+  // {
+  //   path: '/send',
+  //   name: 'send',
+  //   component: Send
+  // }
+  // 提交订单
   {
-    path: '/send',
-    name: 'send',
-    component: Send
+    path: '/order/submit/:id',
+    name: 'OrderSubmit',
+    component: OrderSubmit
   }
 ]
 
