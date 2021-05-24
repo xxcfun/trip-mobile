@@ -25,7 +25,7 @@
     <van-form @submit="onSubmit" class="form-box">
       <van-cell-group class="form-group">
         <van-cell title="选择出行日期" :value="form.play_data" @click="showCalendar=true"/>
-        <van-calendar v-model="showCalendar" @confirm="onConfirm"/>
+        <van-calendar v-model="showCalendar" @confirm="onConfirm" :show-confirm="false"/>
       </van-cell-group>
       <van-cell-group class="form-group">
         <van-cell title="购买数量">
