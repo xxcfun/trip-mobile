@@ -118,11 +118,13 @@
         font-size: 12px;
       }
     }
+
     // 表单区域
     .form-box {
       .form-group {
         margin-top: 10px;
         background: #fff;
+
         .van-cell__title {
           text-align: left;
         }

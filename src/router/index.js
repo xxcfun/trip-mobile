@@ -11,6 +11,7 @@ import SightImage from '../views/sight/SightImage'
 import AccountLogin from '../views/accounts/Login'
 import AccountRegister from '../views/accounts/Register'
 import OrderSubmit from '../views/order/Sumbit'
+import OrderPay from '../views/order/Pay'
 // import Send from '../views/accounts/Send'
 
 Vue.use(VueRouter)
@@ -84,6 +85,12 @@ const routes = [
     path: '/order/submit/:id',
     name: 'OrderSubmit',
     component: OrderSubmit
+  },
+  // 确认订单并支付
+  {
+    path: '/order/pay/:sn',
+    name: 'OrderPay',
+    component: OrderPay
   }
 ]
 
