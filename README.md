@@ -1,24 +1,7 @@
 # trip-mobile
 
-## Project setup
-```
-npm install
-```
+### 业务接口仓库
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+业务接口仓库现以提交，后面持续更新
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+[https://github.com/hhdMrLion/trip](https://github.com/hhdMrLion/trip)
