@@ -57,7 +57,7 @@
             <span>￥</span>
             <strong>{{ item.sell_price }}</strong>
           </div>
-          <router-link to="#">
+          <router-link :to="{name: 'OrderSubmit', params: {id: item.pk}}">
             <van-button type="warning" size="small">预定</van-button>
           </router-link>
         </div>

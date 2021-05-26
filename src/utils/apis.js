@@ -44,7 +44,15 @@ const SightApis = {
   sightImageListUrl: apiHost + '/sight/image/list/#{id}/'
 }
 
+const OrderApis = {
+  // 订单列表
+  // 订单详情、订单支付、订单删除、订单取消
+  // 提交订单
+  ticketSubmitUrl: apiHost + '/order/ticket/submit/'
+}
+
 export {
+  OrderApis,
   SystemApis,
   SightApis,
   AccountsApis

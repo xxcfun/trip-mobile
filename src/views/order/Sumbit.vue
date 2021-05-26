@@ -24,7 +24,7 @@
     <!-- 提交表单 -->
     <van-form @submit="onSubmit" class="form-box">
       <van-cell-group class="form-group">
-        <van-cell title="选择出行日期" :value="form.play_data" @click="showCalendar=true"/>
+        <van-cell title="选择出行日期" :value="form.play_date" @click="showCalendar=true"/>
         <van-calendar v-model="showCalendar" @confirm="onConfirm" :show-confirm="false"/>
       </van-cell-group>
       <van-cell-group class="form-group">
@@ -33,28 +33,42 @@
         </van-cell>
       </van-cell-group>
       <van-cell-group class="form-group">
-        <van-field v-model="form.to_user" type="text" label="收件人" placeholder="输入收件人"
-                   :rules="[{ request: true, message: '请输入收件人' }]"/>
-        <van-field v-model="form.to_phone" type="text" label="手机号码" placeholder="输入手机号码"
-                   :rules="[{ request: true, message: '请输入手机号码' }]"/>
+        <van-field
+          v-model="form.to_user"
+          type="text"
+          label="收件人"
+          placeholder="输入收件人"
+          :rules="[{ request: true, message: '请输入收件人' }]"/>
+        <van-field
+          v-model="form.to_phone"
+          type="text"
+          label="手机号码"
+          placeholder="输入手机号码"
+          :rules="[{ request: true, message: '请输入手机号码' }]"/>
       </van-cell-group>
-      <van-submit-bar :price="totalPrice" button-text="提交订单" @click="onSubmit"/>
+      <van-submit-bar :price="totalPrice" button-text="提交订单"/>
     </van-form>
   </div>
  </template>
 
 <script>
+  import { ajax } from '../../utils/ajax'
+  import { OrderApis } from '../../utils/apis'
+  import { mapState } from 'vuex'
+
   export default {
     name: 'Sumbit',
     data () {
       return {
+        // 门票ID
+        id: '',
         // 预定须知弹框显示
         showPopup: false,
         // 日期选择弹框
         showCalendar: false,
         price: 98,
         form: {
-          play_data: '',
+          play_date: '',
           buy_count: 1,
           to_user: '',
           to_phone: ''
@@ -67,7 +81,11 @@
        */
       totalPrice () {
         return this.price * this.form.buy_count * 100
-      }
+      },
+      ...mapState({
+        phoneNum: state => state.user.username,
+        nickname: state => state.user.nickname
+      })
     },
     methods: {
       // 返回上一页
@@ -78,14 +96,35 @@
        * 选择日期
        */
       formatDate (data) {
-        return `${data.getFullYear()} - ${data.getMonth() + 1} - ${data.getDate()}`
+        return `${data.getFullYear()}-${data.getMonth() + 1}-${data.getDate()}`
       },
       onConfirm (data) {
         // 隐藏日历弹框
         this.showCalendar = false
         // 保存数据
-        this.form.play_data = this.formatDate(data)
+        this.form.play_date = this.formatDate(data)
+      },
+      onSubmit () {
+        // ajax接口的调用
+        ajax.post(OrderApis.ticketSubmitUrl, {
+          ticket_id: this.id,
+          ...this.form
+        }).then(({ data }) => {
+          // 提示用户
+          this.$notify({
+            type: 'success',
+            message: '提交成功，请支付'
+          })
+          // 跳转到待支付的页面
+          this.$router.replace({ name: 'OrderPay', params: { sn: data.sn } })
+        })
       }
+    },
+    created () {
+      // 门票id
+      this.id = this.$route.params.id
+      this.form.to_user = this.nickname || ''
+      this.form.to_phone = this.phoneNum || ''
     }
   }
 </script>
