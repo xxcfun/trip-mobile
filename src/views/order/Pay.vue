@@ -4,13 +4,13 @@
     <!-- 顶部导航 -->
     <van-nav-bar title="订单支付" left-text="返回" right-text="取消订单" left-arrow @click-left="goBack" @click-right="onCancelOrder"/>
     <!-- 订单号 -->
-    <van-cell title="订单号" :title-style="{'text-align': 'left'}" value="订单号内容"/>
+    <van-cell class="order-num" title="订单号" :value="sn"/>
     <!-- 描述信息 -->
-    <div class="order-info">
+    <div class="order-info" v-for="item in orderDetail.items" :key="item.pk">
       <div class="left">
-        <h3>门票信息</h3>
+        <h3>{{ item.flash_name }}</h3>
         <div>
-          <van-icon name="clock-o"/>2021-05-20
+          <van-icon name="clock-o"/>{{ item.remark }}
         </div>
         <div class="tips">短信接收</div>
       </div>
@@ -19,17 +19,23 @@
       </div>
     </div>
     <!-- 提交表单 -->
-    <van-submit-bar :price="totalPrice" button-text="立即支付" @submit="onSubmit"/>
+    <van-submit-bar :price="orderDetail.buy_amount * 100" button-text="立即支付" @submit="onSubmit"/>
   </div>
 </template>
 
 <script>
+  import { OrderApis } from '../../utils/apis'
+  import { ajax } from '../../utils/ajax'
+  import * as constants from '../../utils/constants'
+
   export default {
     name: 'Pay',
     data () {
       return {
-        // 总价格
-        totalPrice: 25000
+        // 订单流水号
+        sn: '',
+        // 订单信息
+        orderDetail: []
       }
     },
     methods: {
@@ -56,17 +62,54 @@
       onSubmit () {
         this.$dialog.confirm({
           title: '温馨提示',
-          message: `确认支付${this.totalPrice / 100}吗？`
+          message: `确认支付${this.orderDetail.buy_amount}吗？`
         }).then(() => {
-          // TODO 调用接口
+          const url = OrderApis.orderDetailUrl.replace('#{sn}', this.sn)
+          // 调用接口
+          ajax.post(url).then(() => {
+            // 提示语
+            this.$notify({
+              type: 'success',
+              message: '支付成功，已为您跳转到订单列表'
+            })
+            // 跳转到我的订单列表
+            this.$router.replace({ name: 'OrderList', params: { status: constants.ORDER_STATUS_ALL } })
+          })
+        })
+      },
+      /**
+       * 获取订单的详细信息
+       */
+      getOrderDetail () {
+        const url = OrderApis.orderDetailUrl.replace('#{sn}', this.sn)
+        ajax.get(url).then(({ data }) => {
+          this.orderDetail = data
         })
       }
+    },
+    created () {
+      this.sn = this.$route.params.sn
+      // 订单详细信息
+      this.getOrderDetail()
     }
   }
 </script>
 
 <style scoped lang="less">
   .page-order-pay {
+    /*订单编号*/
+    .order-num {
+
+      .van-cell__title {
+        /*flex: 0.5;*/
+        text-align: left;
+      }
+
+      .van-cell__value {
+        flex: 3;
+      }
+    }
+
     /*订单信息*/
     .order-info {
       display: flex;
