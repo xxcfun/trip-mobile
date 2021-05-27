@@ -41,7 +41,9 @@ const SightApis = {
   // 景点下的评论列表
   sightCommentListUrl: apiHost + '/sight/comment/list/#{id}/',
   // 景点下的图片列表
-  sightImageListUrl: apiHost + '/sight/image/list/#{id}/'
+  sightImageListUrl: apiHost + '/sight/image/list/#{id}/',
+  // 门票详情
+  sightTicketDetailUrl: apiHost + '/sight/ticket/detail/#{id}/'
 }
 
 const OrderApis = {

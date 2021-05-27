@@ -6,8 +6,8 @@
     <!-- 描述信息 -->
     <div class="order-info">
       <div class="left">
-        <h3>门票标题</h3>
-        <div class="tips">23:00前可定明日</div>
+        <h3>{{ ticketDetail.name }}</h3>
+        <div class="tips">{{ ticketDetail.desc }}</div>
         <div class="tags">
           <span>
             <van-icon name="clock-o">明日可定</van-icon>
@@ -16,9 +16,11 @@
         </div>
       </div>
       <div class="right">
-        <div class="text-warning">￥{{ price }}/张</div>
+        <div class="text-warning">￥{{ ticketDetail.sell_price }}/张</div>
         <van-button plain hairline type="info" size="mini" @click="showPopup=true">预定须知</van-button>
-        <van-popup v-model="showPopup" closeable position="bottom" :style="{ height: '80%' }"/>
+        <van-popup v-model="showPopup" closeable position="bottom" :style="{ height: '80%' }">
+          <ticket-tips :ticketDetail="ticketDetail"/>
+        </van-popup>
       </div>
     </div>
     <!-- 提交表单 -->
@@ -53,11 +55,13 @@
 
 <script>
   import { ajax } from '../../utils/ajax'
-  import { OrderApis } from '../../utils/apis'
+  import { OrderApis, SightApis } from '../../utils/apis'
   import { mapState } from 'vuex'
+  import TicketTips from '../../components/sight/TicketTips'
 
   export default {
     name: 'Sumbit',
+    components: { TicketTips },
     data () {
       return {
         // 门票ID
@@ -72,7 +76,9 @@
           buy_count: 1,
           to_user: '',
           to_phone: ''
-        }
+        },
+        // 门票详情信息
+        ticketDetail: []
       }
     },
     computed: {
@@ -80,7 +86,7 @@
        * 计算总价
        */
       totalPrice () {
-        return this.price * this.form.buy_count * 100
+        return this.ticketDetail.sell_price * this.form.buy_count * 100
       },
       ...mapState({
         phoneNum: state => state.user.username,
@@ -104,6 +110,9 @@
         // 保存数据
         this.form.play_date = this.formatDate(data)
       },
+      /**
+       * 下单提交
+       */
       onSubmit () {
         // ajax接口的调用
         ajax.post(OrderApis.ticketSubmitUrl, {
@@ -118,6 +127,15 @@
           // 跳转到待支付的页面
           this.$router.replace({ name: 'OrderPay', params: { sn: data.sn } })
         })
+      },
+      /**
+       * 门票详情
+       */
+      getTicketDetail () {
+        const url = SightApis.sightTicketDetailUrl.replace('#{id}', this.id)
+        ajax.get(url).then(({ data }) => {
+          this.ticketDetail = data
+        })
       }
     },
     created () {
@@ -125,6 +143,7 @@
       this.id = this.$route.params.id
       this.form.to_user = this.nickname || ''
       this.form.to_phone = this.phoneNum || ''
+      this.getTicketDetail()
     }
   }
 </script>
