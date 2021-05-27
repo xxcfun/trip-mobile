@@ -30,11 +30,13 @@
         <div class="order-footer">
           <div>总共{{ item.buy_count }}件商品 合计 ￥{{ item.buy_amount }}</div>
           <van-button round size="small" type="warning"
-            v-if="item.status == constants.ORDER_STATUS_PAY"
-            @click="goPay(item)">去支付</van-button>
+                      v-if="item.status == constants.ORDER_STATUS_PAY"
+                      @click="goPay(item)">去支付
+          </van-button>
           <van-button round size="small" type="warning"
-            v-if="item.status == constants.ORDER_STATUS_DONE || item.status == constants.ORDER_STATUS_CANCEL"
-            @click="deleteOrder(item)">删除订单</van-button>
+                      v-if="item.status == constants.ORDER_STATUS_DONE || item.status == constants.ORDER_STATUS_CANCEL"
+                      @click="deleteOrder(item)">删除订单
+          </van-button>
           <van-button round size="small" type="info">订单详情</van-button>
         </div>
       </div>
@@ -46,6 +48,7 @@
   import * as constants from '../../utils/constants'
   import { ajax } from '../../utils/ajax'
   import { OrderApis } from '../../utils/apis'
+
   export default {
     name: 'List',
     data () {
@@ -66,7 +69,10 @@
        * tab切换，重新获取数据
        */
       tabChange (name, value) {
-        this.$router.push({ name: 'OrderList', params: { status: name } })
+        this.$router.push({
+          name: 'OrderList',
+          params: { status: name }
+        })
       },
       /**
        * 重新加载页面数据
@@ -99,7 +105,10 @@
        * 去支付，跳转到支付页面
        */
       goPay (item) {
-        this.$router.push({ name: 'OrderPay', params: { sn: item.sn } })
+        this.$router.push({
+          name: 'OrderPay',
+          params: { sn: item.sn }
+        })
       },
       /**
        * 订单删除
@@ -124,6 +133,10 @@
             }
           })
         })
+      },
+      // TODO 订单详情
+      getOrderDedial () {
+
       }
     },
     mounted () {
