@@ -4,31 +4,31 @@
     <!-- 导航条 -->
     <van-nav-bar title="我的订单" left-text="返回" left-arrow @click-left="goBack"/>
     <!-- 订单状态栏 -->
-    <van-tabs v-mode="status">
+    <van-tabs @click="tabChange">
       <van-tab
         v-for="(value, key, index) in constants.ORDER_STATUS"
         :title="value"
         :name="key"
-        :key="index">{{ value }}</van-tab>
+        :key="index"></van-tab>
     </van-tabs>
     <!-- 订单记录 -->
     <div class="order-list">
-      <div class="order-item" v-for="index in 5" :key="index">
+      <div class="order-item" v-for="item in orderList" :key="item.sn">
         <div class="order-head">
-          <div class="order-num">订单号：121211111</div>
-          <div class="order-status text-warning">已取消</div>
+          <div class="order-num">订单号：{{ item.sn }}</div>
+          <div class="order-status text-warning">{{ constants.ORDER_STATUS[item.status] }}</div>
         </div>
         <div class="order-body">
           <div class="left">
-            <van-image width="100" height="100" src="/static/sight/a1.jpg"></van-image>
+            <van-image width="100" height="100" :src="item.item_first.flash_img"/>
           </div>
           <div class="right">
-            <div class="title">门票的标题</div>
-            <div class="remark">相关的描述</div>
+            <div class="title">{{ item.item_first.flash_name }}</div>
+            <div class="remark">{{ item.item_first.remark }}</div>
           </div>
         </div>
         <div class="order-footer">
-          <div>总共2件商品 合计 ￥198</div>
+          <div>总共{{ item.buy_count }}件商品 合计 ￥{{ item.buy_amount }}</div>
           <van-button round size="small" type="warning">删除订单</van-button>
           <van-button round size="small" type="info">订单详情</van-button>
         </div>
@@ -39,19 +39,61 @@
 
 <script>
   import * as constants from '../../utils/constants'
+  import { ajax } from '../../utils/ajax'
+  import { OrderApis } from '../../utils/apis'
   export default {
     name: 'List',
     data () {
       return {
         status: 0,
-        constants
+        constants,
+        // 订单列表
+        orderList: []
+      }
+    },
+    watch: {
+      $route () {
+        this.loadData()
       }
     },
     methods: {
+      /**
+       * tab切换，重新获取数据
+       */
+      tabChange (name, value) {
+        this.$router.push({ name: 'OrderList', params: { status: name } })
+      },
+      /**
+       * 重新加载页面数据
+       */
+      loadData () {
+        // 订单状态
+        this.status = this.$route.params.status
+        // 清空数据
+        this.orderList = []
+        // 加载数据列表
+        this.getOrderList()
+      },
       // 返回上一页
       goBack () {
         this.$router.go(-1)
+      },
+      /**
+       * 加载订单列表
+       */
+      getOrderList () {
+        ajax.get(OrderApis.orderListUrl, {
+          params: {
+            status: this.status
+          }
+        }).then(({ data }) => {
+          this.orderList = data.objects
+        })
       }
+    },
+    mounted () {
+      // 第一次加载数据
+      this.loadData()
     }
   }
 </script>
