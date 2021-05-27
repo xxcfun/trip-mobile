@@ -29,6 +29,9 @@
         </div>
         <div class="order-footer">
           <div>总共{{ item.buy_count }}件商品 合计 ￥{{ item.buy_amount }}</div>
+          <van-button round size="small" type="warning"
+                      v-if="item.status == constants.ORDER_STATUS_PAY"
+                      @click="goPay(item)">去支付</van-button>
           <van-button round size="small" type="warning">删除订单</van-button>
           <van-button round size="small" type="info">订单详情</van-button>
         </div>
@@ -89,6 +92,12 @@
         }).then(({ data }) => {
           this.orderList = data.objects
         })
+      },
+      /**
+       * 去支付，跳转到支付页面
+       */
+      goPay (item) {
+        this.$router.push({ name: 'OrderPay', params: { sn: item.sn } })
       }
     },
     mounted () {
