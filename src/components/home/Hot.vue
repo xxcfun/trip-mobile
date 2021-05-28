@@ -47,7 +47,7 @@
        * 获取热门景点的接口
        */
       getDataList () {
-        ajax.get(SightApis.sightListUrl, {
+        ajax.get(SightApis.sightListCacheUrl, {
           params: {
             is_hot: 1
           }

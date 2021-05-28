@@ -36,7 +36,7 @@
        * 获取精选景点的接口
        */
       getDataList () {
-        ajax.get(SightApis.sightListUrl, {
+        ajax.get(SightApis.sightListCacheUrl, {
           params: {
             is_top: 1
           }

@@ -34,6 +34,8 @@ const SystemApis = {
 const SightApis = {
   // 景点列表
   sightListUrl: apiHost + '/sight/sight/list/',
+  // 缓存优化后的URL
+  sightListCacheUrl: apiHost + '/sight/sight/list/cache/',
   // 景点详情
   sightDetailUrl: apiHost + '/sight/sight/detail/#{id}/',
   // 景点下的门票列表
