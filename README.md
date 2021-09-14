@@ -4,4 +4,4 @@
 
 业务接口仓库现以提交，后面持续更新
 
-[https://github.com/hhdMrLion/trip](https://github.com/hhdMrLion/trip)
+[https://github.com/xxcfun/trip](https://github.com/xxcfun/trip)
